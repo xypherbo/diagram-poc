@@ -15,7 +15,7 @@ export class CustomNodeFactory extends AbstractNodeFactory {
 	}
 
 	generateReactWidget(diagramEngine, node){
-		return <CustomNodeWidget engine={diagramEngine} node={node} />;
+		return <CustomNodeWidget node={node} />;
 	}
 
 	getNewInstance() {

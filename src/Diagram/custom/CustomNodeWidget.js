@@ -9,7 +9,6 @@ export class CustomNodeWidget extends BaseWidget {
   constructor(props) {
     super("srd-default-node", props);
     this.state = {};
-    console.log(this.props)
   }
 
   generatePort(port) {
