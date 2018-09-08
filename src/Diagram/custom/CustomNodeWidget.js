@@ -18,7 +18,7 @@ export class CustomNodeWidget extends BaseWidget {
   render() {
     return (
       <div {...this.getProps()} style={{ background: this.props.node.color }}>
-        <div className={this.bem("__title")}>
+        <div className={this.bem("__title")} onDoubleClick={()=>{this.props.node.doubleClick()}}>
           <div className={this.bem("__name")}>{this.props.node.name}</div>
         </div>
         <div className={this.bem("__ports")}>

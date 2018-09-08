@@ -4,8 +4,8 @@ import { merge, filter } from 'lodash'
 export class CustomNodeModel extends NodeModel {
 	constructor(name,color,diagram) {
     super("custom");
-    this.name = "test",
-		this.color = "#000000"
+    this.name = name || "test",
+		this.color = color || "#000000"
     this.diagram = diagram;
   }
 
@@ -84,6 +84,11 @@ export class CustomNodeModel extends NodeModel {
       } */
     });
     this.diagram.forceUpdate();
-  }
+	}
+	
+	doubleClick(){
+		console.log(this)
+		console.log('dblclick')
+	}
 
 }
