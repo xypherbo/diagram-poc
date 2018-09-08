@@ -13,19 +13,11 @@ import {
 
 import { CustomNodeFactory } from './custom/CustomNodeFactory'
 import { CustomNodeModel } from './custom/CustomNodeModel'
-import { EventEmitter } from 'eventemitter3'
 
 class Diagram01 extends Component {
 
   constructor(props) {
     super(props)
-
-    this.eventEmitter = new EventEmitter();
-
-    this.eventEmitter.on('append-node', (e) => {
-      console.log(e)
-      this.appendNode()
-    })
 
     //3-A) create a default node
     var node1 = new DefaultNodeModel("Start", "#CCCCCC");
@@ -37,7 +29,7 @@ class Diagram01 extends Component {
     let port2 = node2.addInPort("In");
     node2.setPosition(100, 500);
 
-    var customNode = new CustomNodeModel("Custom", "#FF0000", this.eventEmitter);
+    var customNode = new CustomNodeModel("Custom", "#FF0000", this);
     let port3 = customNode.addInPort('In')
     let port4 = customNode.addOutPort('Out')
 
@@ -60,42 +52,6 @@ class Diagram01 extends Component {
     this.props.model.addAll(node1, node2, link1, link2, customNode);
   }
 
-  appendNode() {
-    console.log(this.props)
-    let model = this.props.engine.getDiagramModel();
-    let selectedItem = model.getSelectedItems();
-    console.log(model)
-
-    let newNode;
-    selectedItem.forEach((item) => {
-      console.log(item)
-      if (item instanceof NodeModel) {
-        newNode = new DefaultNodeModel(new Date().getTime(), "#FF0000");
-        let newInPort = newNode.addInPort('in')
-        let newOutport = newNode.addOutPort('out')
-        console.log(item.getOutPorts())
-        let newOutLink = item.getOutPorts()[0].link(newInPort)
-        newNode.setPosition(item.x, item.y + 100);
-        model.addAll(newNode, newOutLink)
-      }/*  else if (item instanceof PointModel) {
-        if (!item.parent.getSourcePort().in) {
-          console.log(item)
-          let nodeOutport = item.parent.getSourcePort();
-          let nodeOutTarget = item.parent.getTargetPort();
-          let newOutLink = newNode.getOutPorts()[0].link(nodeOutTarget)
-          console.log(nodeOutTarget)
-          console.log(newOutLink)
-          console.log( nodeOutTarget.getLinks())
-          item.remove()
-        
-          model.addAll(newOutLink)
-
-        }
-      } */
-    });
-    this.forceUpdate();
-  }
-
   render() {
     return (
       <div>
@@ -113,7 +69,6 @@ export default () => {
 
   //2) setup the diagram model
   var model = new DiagramModel();
-
   //5) load model into engine
   engine.setDiagramModel(model);
 

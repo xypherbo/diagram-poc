@@ -32,7 +32,7 @@ export class CustomNodeWidget extends BaseWidget {
         </div>
         <button style={{
           position: 'absolute',
-        }} onClick={() => this.props.node.ee.emit('append-node',this.props.node)}>+</button>
+        }} onClick={() => this.props.node.appendNode()}>+</button>
         {this.props.node.open ? <div style={{
           position: 'absolute',
           backgroundColor: '#aaa',

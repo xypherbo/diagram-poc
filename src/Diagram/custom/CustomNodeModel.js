@@ -2,11 +2,11 @@ import { NodeModel, DefaultNodeModel, Toolkit, DefaultPortModel} from "storm-rea
 import { merge, filter } from 'lodash'
 
 export class CustomNodeModel extends NodeModel {
-	constructor(name,color,ee) {
+	constructor(name,color,diagram) {
     super("custom");
     this.name = "test",
 		this.color = "#000000"
-    this.ee = ee;
+    this.diagram = diagram;
   }
 
   addInPort(label) {
@@ -53,8 +53,37 @@ export class CustomNodeModel extends NodeModel {
   }
 
   appendNode() {
-    console.log(this)
-    //this.ee.emit('append-node',this)
+
+		let model = this.diagram.props.engine.getDiagramModel();
+    let selectedItem = model.getSelectedItems();
+    let newNode;
+    selectedItem.forEach((item) => {
+      console.log(item)
+      if (item instanceof NodeModel) {
+        newNode = new DefaultNodeModel(new Date().getTime(), "#FF0000");
+        let newInPort = newNode.addInPort('in')
+        let newOutport = newNode.addOutPort('out')
+        console.log(item.getOutPorts())
+        let newOutLink = item.getOutPorts()[0].link(newInPort)
+        newNode.setPosition(item.x, item.y + 100);
+        model.addAll(newNode, newOutLink)
+      }/*  else if (item instanceof PointModel) {
+        if (!item.parent.getSourcePort().in) {
+          console.log(item)
+          let nodeOutport = item.parent.getSourcePort();
+          let nodeOutTarget = item.parent.getTargetPort();
+          let newOutLink = newNode.getOutPorts()[0].link(nodeOutTarget)
+          console.log(nodeOutTarget)
+          console.log(newOutLink)
+          console.log( nodeOutTarget.getLinks())
+          item.remove()
+        
+          model.addAll(newOutLink)
+
+        }
+      } */
+    });
+    this.diagram.forceUpdate();
   }
 
 }
