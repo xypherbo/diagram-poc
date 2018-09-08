@@ -60,7 +60,7 @@ export class CustomNodeModel extends NodeModel {
     selectedItem.forEach((item) => {
       console.log(item)
       if (item instanceof NodeModel) {
-        newNode = new DefaultNodeModel(new Date().getTime(), "#FF0000");
+        newNode = new CustomNodeModel(new Date().getTime(), "#FF0000", this.diagram);
         let newInPort = newNode.addInPort('in')
         let newOutport = newNode.addOutPort('out')
         console.log(item.getOutPorts())
